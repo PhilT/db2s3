@@ -1,19 +1,17 @@
 namespace :db2s3 do
-  namespace :backup do
-    desc "Save a full back to S3"
-    task :full => :environment do
-      DB2S3.new.full_backup
-    end
+  desc "Save a full backup to S3"
+  task :backup => :environment do
+    DB2S3.new.full_backup
+  end
 
-    desc "Restore your DB from S3"
-    task :restore => :environment do
-      DB2S3.new.restore
-    end
+  desc "Restore your DB from S3. FROM=environment - grabs the backup from database specified by environment"
+  task :restore => :environment do
+    DB2S3.new.restore
+  end
 
-    desc "Keep all backups for the last day, one per day for the last week, and one per week before that. Delete the rest."
-    task :clean => :environment do
-      DB2S3.new.clean
-    end
+  desc "Keep all backups for the last day, one per day for the last week, and one per week before that. Delete the rest."
+  task :clean => :environment do
+    DB2S3.new.clean
   end
 
   desc "Show table sizes for your database"
@@ -24,3 +22,4 @@ namespace :db2s3 do
     puts (header + rows).collect {|x| x.join("\t") }
   end
 end
+

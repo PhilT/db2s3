@@ -97,7 +97,7 @@ class DB2S3
   end
 
   def most_recent_dump_file_name
-    "most-recent-dump-#{db_credentials[:database]}.txt"
+    "most-recent-dump-#{ENV['FROM']}.txt"
   end
 
   def run(command)
@@ -105,8 +105,8 @@ class DB2S3
     raise("error, process exited with status #{$?.exitstatus}") unless result
   end
 
-  def db_credentials
-    ActiveRecord::Base.connection.instance_eval { @config } # Dodgy!
+  def db_credentials()
+    ActiveRecord::Base.configurations[RAILS_ENV].symbolize_keys
   end
 
   class S3Store
@@ -158,3 +158,4 @@ class DB2S3
   end
 
 end
+
